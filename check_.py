@@ -26,7 +26,7 @@ def fine_tune(lp):
             newString += lp[i]
     return newString
 
-directory = "Linh/testData/"
+directory = "train/
 for filename in os.listdir(directory):
     img_path = os.path.join(directory, filename)
     # Load model LP detection
