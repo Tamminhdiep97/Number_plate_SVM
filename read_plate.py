@@ -2,7 +2,7 @@ import pytesseract
 import cv2
 import numpy as np
 from lib_detection import load_model, detect_lp, im2single
-
+import time
 
 # Ham sap xep contour tu trai sang phai
 def sort_contours(cnts):
