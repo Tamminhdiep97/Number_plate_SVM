@@ -68,13 +68,13 @@ if (len(LpImg)):
     binary = cv2.threshold(gray, 127, 255,
                          cv2.THRESH_BINARY_INV)[1]
 
-    cv2.imshow("Anh bien so sau threshold", binary)
-    cv2.waitKey()
-"""
+#    cv2.imshow("Anh bien so sau threshold", binary)
+#    cv2.waitKey()
+
     # Segment kí tự
     kernel3 = cv2.getStructuringElement(cv2.MORPH_RECT, (3, 3))
     thre_mor = cv2.morphologyEx(binary, cv2.MORPH_DILATE, kernel3)
-    cont, _  = cv2.findContours(thre_mor, cv2.RETR_LIST, cv2.CHAIN_APPROX_SIMPLE)
+    im2,cont, _  = cv2.findContours(thre_mor, cv2.RETR_LIST, cv2.CHAIN_APPROX_SIMPLE)
 
 
     plate_info = ""
@@ -92,9 +92,11 @@ if (len(LpImg)):
                 curr_num = thre_mor[y:y+h,x:x+w]
                 curr_num = cv2.resize(curr_num, dsize=(digit_w, digit_h))
                 _, curr_num = cv2.threshold(curr_num, 30, 255, cv2.THRESH_BINARY)
-                curr_num = np.array(curr_num,dtype=np.float32)
+                cv2.imshow("i",curr_num)
+                cv2.waitKey(0)
+                """curr_num = np.array(curr_num,dtype=np.float32)
                 curr_num = curr_num.reshape(-1, digit_w * digit_h)
-
+                
                 # Dua vao model SVM
                 result = model_svm.predict(curr_num)[1]
                 result = int(result[0, 0])
@@ -106,8 +108,8 @@ if (len(LpImg)):
 
                 plate_info +=result
 
-    cv2.imshow("Cac contour tim duoc", roi)
-    cv2.waitKey(0)
+    #cv2.imshow("Cac contour tim duoc", roi)
+    #cv2.waitKey(0)
 
     # Viet bien so len anh
     cv2.putText(Ivehicle,fine_tune(plate_info),(50, 50), cv2.FONT_HERSHEY_PLAIN, 3.0, (0, 0, 255), lineType=cv2.LINE_AA)
@@ -117,9 +119,9 @@ if (len(LpImg)):
     cv2.imshow("Hinh anh output",Ivehicle)
     cv2.waitKey()
 
-
-
 """
+
+
 
 
 
