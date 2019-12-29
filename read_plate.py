@@ -26,12 +26,12 @@ def fine_tune(lp):
     return newString
 
 # Đường dẫn ảnh, các bạn đổi tên file tại đây để thử nhé
-img_path = "test/test2.jpg"
+img_path = "test_data/32940.jpg"
 
 # Load model LP detection
 wpod_net_path = "wpod-net_update1.json"
 wpod_net = load_model(wpod_net_path)
-
+model_svm = cv2.ml.SVM_load('svm2.xml')
 # Đọc file ảnh đầu vào
 Ivehicle = cv2.imread(img_path)
 
@@ -51,7 +51,7 @@ _ , LpImg, lp_type = detect_lp(wpod_net, im2single(Ivehicle), bound_dim, lp_thre
 digit_w = 30 # Kich thuoc ki tu
 digit_h = 60 # Kich thuoc ki tu
 
-model_svm = cv2.ml.SVM_load('svm.xml')
+
 
 if (len(LpImg)):
 
@@ -82,7 +82,9 @@ if (len(LpImg)):
     for c in sort_contours(cont):
         (x, y, w, h) = cv2.boundingRect(c)
         ratio = h/w
-        if 1.5<=ratio<=3.5: # Chon cac contour dam bao ve ratio w/h
+        #print(ratio)
+        if 1.5<=ratio<=3.9: # Chon cac contour dam bao ve ratio w/h
+            
             if h/roi.shape[0]>=0.6: # Chon cac contour cao tu 60% bien so tro len
 
                 # Ve khung chu nhat quanh so
@@ -94,22 +96,23 @@ if (len(LpImg)):
                 _, curr_num = cv2.threshold(curr_num, 30, 255, cv2.THRESH_BINARY)
                 cv2.imshow("i",curr_num)
                 cv2.waitKey(0)
-                """curr_num = np.array(curr_num,dtype=np.float32)
+                curr_num = np.array(curr_num,dtype=np.float32)
                 curr_num = curr_num.reshape(-1, digit_w * digit_h)
                 
                 # Dua vao model SVM
                 result = model_svm.predict(curr_num)[1]
                 result = int(result[0, 0])
-
-                if result<9: # Neu la so thi hien thi luon
+    
+                if result<=9: # Neu la so thi hien thi luon
                     result = str(result)
                 else: #Neu la chu thi chuyen bang ASCII
                     result = chr(result)
-
+                
+                #print(result)
                 plate_info +=result
 
-    #cv2.imshow("Cac contour tim duoc", roi)
-    #cv2.waitKey(0)
+    cv2.imshow("Cac contour tim duoc", roi)
+    cv2.waitKey(0)
 
     # Viet bien so len anh
     cv2.putText(Ivehicle,fine_tune(plate_info),(50, 50), cv2.FONT_HERSHEY_PLAIN, 3.0, (0, 0, 255), lineType=cv2.LINE_AA)
@@ -119,7 +122,7 @@ if (len(LpImg)):
     cv2.imshow("Hinh anh output",Ivehicle)
     cv2.waitKey()
 
-"""
+
 
 
 
