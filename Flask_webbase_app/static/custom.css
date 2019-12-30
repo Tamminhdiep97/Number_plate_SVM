@@ -1,0 +1,61 @@
+html{
+    background-color: #d8d8d8;
+}
+header {
+    width: 100%;
+    margin-top: 7%;
+    text-align: center;
+    color: #250000;
+}
+
+header h3 {
+    display: inline-block;
+    font-weight: bolder;
+}
+
+ul li {
+    text-decoration: none;
+    list-style-type: none;
+    margin: auto;
+    width: 50%;
+    height: auto;
+}
+.result>h3{
+    margin: auto;
+    width: 50%;
+    height: auto;
+}
+.license_plate {
+    width: 50%;
+    height: fit-content;
+    background-color: #b3d2da;
+    margin-bottom: 10px;
+    margin: auto;
+    align-items: center;
+    font-size: 18px;
+    font-weight: bold;
+    line-height: 30px;
+}
+.license_plate div{
+    margin-left:7%;
+    margin-right:7%;
+}
+
+form {
+    margin: auto;
+    display: flex;
+    padding-bottom: 25px;
+    padding-top: 20px;
+}
+
+form div {
+    display: block;
+    width: 100%;
+}
+
+input {
+    margin-right: 25px;
+}
+.submit-button{
+    border-radius:14%;
+}
