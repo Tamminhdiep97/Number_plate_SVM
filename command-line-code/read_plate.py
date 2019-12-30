@@ -31,7 +31,7 @@ img_path = "test/41080.jpg"
 # Load model LP detection
 wpod_net_path = "wpod-net_update1.json"
 wpod_net = load_model(wpod_net_path)
-model_svm = cv2.ml.SVM_load('svm2.xml')
+model_svm = cv2.ml.SVM_load('svm2_.xml')
 # Đọc file ảnh đầu vào
 Ivehicle = cv2.imread(img_path)
 
