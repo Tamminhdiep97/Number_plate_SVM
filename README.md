@@ -5,6 +5,6 @@ Link github model, article: https://github.com/thangnch/MiAI_LP_Detection_SVM
 Link data motobike: https://drive.google.com/uc?export=download&id=0B9GEvXOuYdpldHVhNkYzdm1hR2c
 xe may
 
-Link data oto: https://drive.google.com/uc?export=download&id=1TJZcwuUQ7hmzuiH-K4355lrTlV4nsGur
+Link data car: https://drive.google.com/uc?export=download&id=1TJZcwuUQ7hmzuiH-K4355lrTlV4nsGur
 
 Link Colab train model: https://drive.google.com/open?id=18IB4yId2V8I4iyA6fKllZtysVc_lbFI3
