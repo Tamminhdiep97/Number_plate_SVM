@@ -111,11 +111,11 @@ def find_ratio_lp(Ivehicle):
     
         Lp_ratio = float(Lp_w)/float(Lp_h)
         print(str(Lp_ratio))
-        return roi, Lp_ratio
+        return roi, Lp_ratio, Lp_w, Lp_h
     else:
-        return Ivehicle, -1
+        return Ivehicle, -1, -1, -1
 
-def predict_oto(img_plate):
+def predict(img_plate):
     model_svm = cv2.ml.SVM_load('svm2.xml')
     gray = cv2.cvtColor( img_plate, cv2.COLOR_BGR2GRAY)
 
@@ -134,12 +134,12 @@ def predict_oto(img_plate):
     for c in sort_contours(cont):
         (x, y, w, h) = cv2.boundingRect(c)
         ratio = h/w
-
         #print(ratio)
-        if 1.2<=ratio<=3.9: # Chon cac contour dam bao ve ratio w/h
+        if 0.9<=ratio<=4.5: # Chon cac contour dam bao ve ratio w/h
             
-            if h/img_plate.shape[0]>=0.6: # Chon cac contour cao tu 60% bien so tro len
-
+            if h/img_plate.shape[0]>=0.55: # Chon cac contour cao tu 60% bien so tro len
+                #print(ratio)
+                #print(h/img_plate.shape[0])
                 # Ve khung chu nhat quanh so
                 #cv2.rectangle(roi, (x, y), (x + w, y + h), (0, 255, 0), 2)
 
@@ -155,23 +155,13 @@ def predict_oto(img_plate):
                 # Dua vao model SVM
                 result = model_svm.predict(curr_num)[1]
                 result = int(result[0, 0])
-    
+
                 if result<=9: # Neu la so thi hien thi luon
                     result = str(result)
                 else: #Neu la chu thi chuyen bang ASCII
                     result = chr(result)
-                
-                #print(result)
+
                 plate_info +=result
-
-        #cv2.imshow("Cac contour tim duoc", roi)
-        #cv2.waitKey(0)
-
-    # Viet bien so len anh
-        #cv2.putText(Ivehicle,fine_tune(plate_info),(50, 50), cv2.FONT_HERSHEY_PLAIN, 3.0, (0, 0, 255), lineType=cv2.LINE_AA)
-
-    # Hien thi anh
-        #print("Bien so=", plate_info)
     return plate_info
 #webFunction
 UPLOAD_FOLDER = 'static/uploads'
@@ -224,8 +214,19 @@ def image_search():
             path.append(os.path.sep.join(["static/images", "original_"+filename1]))
             #find ratio
             result = find_ratio_lp(Ivehicle)
+            if result[1] >= 2:
             #predict as oto
-            str_plate = str(predict_oto(result[0]))
+                str_plate = str(predict(result[0]))
+            else:
+                Lp_w = result[2]
+                Lp_h = result[3]
+                a = []
+                temp = result[0]
+                for i in range(0,2):
+                    a.append(0)
+                a[0]=temp[0:int(Lp_h/2), 0:Lp_w]
+                a[1]=temp[1+int(Lp_h/2):Lp_h-1,0:Lp_w]
+                str_plate = str(predict(a[0]))+" "+str(predict(a[1]))
             #print(str_plate)
 
             cv2.imwrite(os.path.sep.join(["static/images", "result"+filename1]),result[0])
